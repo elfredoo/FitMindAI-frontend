@@ -1,98 +1,141 @@
 import { Badge } from "@mui/material";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaShoppingCart, FaSignInAlt, FaStore } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosMenu } from "react-icons/io";
 import { useSelector } from "react-redux";
-import UserMenu from "../UserMenu";
+import UserMenu from "../user/UserMenu";
+import logo from "../../assets/logo.png";
+
+const slogans = ["Boost focus", "Burn fat", "Sleep better"];
 
 export default function Navbar() {
+  const [sloganIndex, setSloganIndex] = useState(0);
   const [navbarOpen, setNavbarOpen] = useState(false);
   const { cart } = useSelector((state) => state.carts);
   const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSloganIndex((prevIndex) => (prevIndex + 1) % slogans.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="h-[70px] bg-gradient-to-r from-[#111827] to-[#1f2937] text-white z-50 flex items-center sticky top-0">
-      <div className="lg:px-14 sm:px-8 px-4 w-full flex justify-between">
-        <NavLink to="/" className="flex items-center text-2xl font-bold">
-          <FaStore className="mr-2 text-3xl" />
-          <span className="font-[Poppins]">Orderly</span>
-        </NavLink>
-        <ul
-          className={`bg-gradient-to-r from-gray-900 to-gray-800 flex sm:gap-10 gap-4 sm:items-center text-white sm:static absolute left-0 top-[70px] sm:shadow-none shadow-md 
-    ${navbarOpen ? "h-fit sm:pb-0 pb-5" : "h-0 overflow-hidden"} 
-    transition-all duration-100 sm:h-fit sm:bg-none sm:w-fit w-full sm:flex-row flex-col px-4 sm:px-0`}
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 text-white shadow-md animate-gradient-move">
+      <div className="mx-auto px-4 sm:px-8 lg:px-14 h-[70px] flex items-center justify-between">
+        {/* Logo i nazwa */}
+        <NavLink
+          to="/"
+          className="flex items-center gap-2 sm:gap-3 text-2xl font-extrabold tracking-wide"
         >
-          <li className="font-[500] transition-all duration-150">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "text-white font-semibold" : "text-gray-200"
-              }
-              to="/"
-              end
+          <img src={logo} alt="FitMindAI Logo" className="h-40  object-cover" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slogans[sloganIndex]}
+              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -10, scale: 1.05, filter: "blur(6px)" }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="text-sm font-medium text-[#000000] tracking-tight"
             >
-              Home
-            </NavLink>
-          </li>
-          <li className="font-[500] transition-all duration-150">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "text-white font-semibold" : "text-gray-200"
-              }
-              to="/products"
-              end
-            >
-              Products
-            </NavLink>
-          </li>
-          <li className="font-[500] transition-all duration-150">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "text-white font-semibold" : "text-gray-200"
-              }
-              to="/about"
-              end
-            >
-              About
-            </NavLink>
-          </li>
-          <li className="font-[500] transition-all duration-150">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "text-white font-semibold" : "text-gray-200"
-              }
-              to="/contact"
-              end
-            >
-              Contact
-            </NavLink>
-          </li>
-          <li className="font-[500] transition-all duration-150">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "text-white font-semibold" : "text-gray-200"
-              }
-              to="/cart"
-              end
-            >
-              <Badge
-                showZero
-                badgeContent={cart?.length}
-                color="primary"
-                overlap="circular"
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              {slogans[sloganIndex]}
+            </motion.div>
+          </AnimatePresence>
+          {/* <span className="text-white">FitMindAI</span> */}
+        </NavLink>
+
+        {/* Menu - desktop */}
+        <nav className="hidden sm:flex gap-8 font-medium text-sm items-center">
+          {["/", "/products", "/ask-ai", "/About"].map((path, i) => {
+            const label = ["Home", "Products", "Ask AI", "About"][i];
+            return (
+              <NavLink
+                key={path}
+                to={path}
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-white font-semibold"
+                    : "text-gray-200 hover:text-white transition"
+                }
               >
-                <FaShoppingCart size={25} />
-              </Badge>
-            </NavLink>
-          </li>
+                {label}
+              </NavLink>
+            );
+          })}
+
+          <NavLink to="/cart">
+            <Badge
+              showZero
+              badgeContent={cart?.length}
+              color="primary"
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <FaShoppingCart size={22} />
+            </Badge>
+          </NavLink>
           {user && user.id ? (
-            <li className="font-[500] transition-all duration-150">
-              <UserMenu />
-            </li>
+            <UserMenu />
           ) : (
-            <li className="font-[500] transition-all duration-150">
+            <NavLink to="/login" end>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.03 }}
+                className="relative overflow-hidden font-semibold py-2 px-4 rounded-sm text-white transition-all duration-300"
+              >
+                <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></span>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <FaSignInAlt className="text-lg" /> Login
+                </span>
+              </motion.button>
+            </NavLink>
+          )}
+        </nav>
+
+        {/* Burger menu */}
+        <button
+          onClick={() => setNavbarOpen(!navbarOpen)}
+          className="sm:hidden text-white text-3xl"
+        >
+          {navbarOpen ? <RxCross2 /> : <IoIosMenu />}
+        </button>
+      </div>
+
+      {/* Mobile nav */}
+      <div
+        className={`sm:hidden transition-all duration-300 overflow-hidden bg-pink-500/90 ${
+          navbarOpen ? "max-h-[300px] py-4" : "max-h-0"
+        }`}
+      >
+        <div className="flex flex-col gap-4 px-6 text-sm">
+          {["/", "/products", "/ask-ai", "/about", "/cart"].map((path, i) => {
+            const label = ["Home", "Products", "Ask AI", "About", "Cart"][i];
+            return (
+              <NavLink
+                key={path}
+                to={path}
+                onClick={() => setNavbarOpen(false)}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-white font-semibold"
+                    : "text-gray-100 hover:text-white transition"
+                }
+              >
+                {label}
+              </NavLink>
+            );
+          })}
+          {user && user.id ? (
+            <div className="font-[500] transition-all duration-150">
+              <UserMenu />
+            </div>
+          ) : (
+            <div className="font-[500] transition-all duration-150">
               <NavLink
                 className="flex items-center space-x-2 px-4 py-[6px] text-white font-semibold rounded-md shadow-lg"
                 to="/login"
@@ -110,20 +153,10 @@ export default function Navbar() {
                   </span>
                 </motion.button>
               </NavLink>
-            </li>
+            </div>
           )}
-        </ul>
-        <button
-          onClick={() => setNavbarOpen(!navbarOpen)}
-          className="sm:hidden flex items-center sm:mt-0 mt-2"
-        >
-          {navbarOpen ? (
-            <RxCross2 className="text-white text-3xl" />
-          ) : (
-            <IoIosMenu className="text-white text-3xl" />
-          )}
-        </button>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }

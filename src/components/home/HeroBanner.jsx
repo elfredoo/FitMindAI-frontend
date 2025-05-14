@@ -13,7 +13,7 @@ import { Autoplay, Pagination, EffectFade, Navigation } from "swiper/modules";
 import { bannerLists } from "../../utils";
 import { Link } from "react-router-dom";
 
-const colors = ["bg-[#FDC200]", "bg-[#FF2C2C]", "bg-[#21AD61]", "bg-[#723DA6]"];
+const colors = ["bg-[#0099CC]", "bg-[#FF5722]", "bg-[#4CAF50]", "bg-[#7B1FA2]"];
 
 export default function HeroBanner() {
   console.log(bannerLists);
@@ -25,10 +25,16 @@ export default function HeroBanner() {
           delay: 4000,
           disableOnInteraction: false,
         }}
+        loop={true}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        parallax={true}
+        lazy={true}
+        keyboard={{ enabled: true }}
+        mousewheel={{ forceToAxis: true }}
+        pagination={{ clickable: true, dynamicBullets: true }}
         navigation
         modules={[Pagination, EffectFade, Navigation, Autoplay]}
-        pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
         slidesPerView={1}
       >
         {bannerLists.map((item, index) => (
@@ -49,7 +55,7 @@ export default function HeroBanner() {
                       {item.description}
                     </p>
                     <Link
-                      to="/products"
+                      to={item.url}
                       className="mt-6 inline-block bg-black text-white py-2 px-4 rounded hover:bg-gray-800"
                     >
                       Shop

@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
-import BackDrop from "./BackDrop";
-import { logoutUser } from "../store/actions";
+import BackDrop from "../BackDrop";
+import { logoutUser } from "../../store/actions";
 
 export default function UserMenu() {
   const [anchorEl, setAnchorEl] = useState(null);

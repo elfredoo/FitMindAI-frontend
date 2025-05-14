@@ -23,6 +23,7 @@ export default function Register() {
   } = useForm({ mode: "onTouched" });
 
   const registerHandler = async (data) => {
+    console.log(data);
     dispatch(registerNewUser(data, toast, reset, navigate, setLoader));
   };
 
@@ -59,6 +60,16 @@ export default function Register() {
               errors={errors}
               message="*Email is required"
               placeholder="Enter your email"
+            />
+            <InputField
+              label="Phone Number"
+              required
+              id="phoneNumber"
+              type="text"
+              register={register}
+              errors={errors}
+              message="*Phone Number is required"
+              placeholder="+48 123 456 789"
             />
             <InputField
               label="Password"

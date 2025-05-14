@@ -130,7 +130,7 @@ export const registerNewUser =
       navigate("/login");
     } catch (error) {
       console.error(error);
-      toast.error(error?.response?.data?.mesage || "Internal Server Error");
+      toast.error(error?.response?.data?.message || "Internal Server Error");
     } finally {
       setLoader(false);
     }
@@ -293,5 +293,28 @@ export const stripePaymentConfirmation =
       }
     } catch (error) {
       setErrorMessage("Payment failed. Please try again.");
+    }
+  };
+
+export const getProductsRecommendation =
+  (sendData, toast) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: "IS_FETCHING" });
+      const response = await api.post("/recommendations", sendData);
+      if (response.data) {
+        dispatch({ type: "IS_SUCCESS" });
+        return response.data;
+      } else {
+        dispatch({
+          type: "IS_ERROR",
+          payload: "Failed to generate recommendations.",
+        });
+        toast.error("Failed to generate recommendations.");
+      }
+    } catch (error) {
+      dispatch({
+        type: "IS_ERROR",
+        payload: "Failed to generate recommendations.",
+      });
     }
   };

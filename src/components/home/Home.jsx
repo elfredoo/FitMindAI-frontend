@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { fetchProducts } from "../../store/actions";
 import Loader from "../shared/Loader";
 import { FaExclamationTriangle } from "react-icons/fa";
+import InfoSection from "./InfoSection";
 
 export default function Home() {
   const { isLoading, errorMessage } = useSelector((state) => state.errors);
@@ -20,11 +21,17 @@ export default function Home() {
         <HeroBanner />
       </div>
 
+      <div>
+        <div className="flex flex-col justify-center items-center space-y-2">
+          <InfoSection />
+        </div>
+      </div>
+
       <div className="py-5">
         <div className="flex flex-col justify-center items-center space-y-2">
           <h1 className="text-slate-800 text-4xl font-bold">Products</h1>
           <span className="text-slate-700 text-2xl">
-            Discover our handpicked selection of top-rateditems just for You!
+            Discover our handpicked selection of top-rated items just for You!
           </span>
         </div>
         {isLoading ? (

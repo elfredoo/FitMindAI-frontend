@@ -1,5 +1,11 @@
-import bannerImageKids from "../assets/sliders/s_1.webp";
-import bannerImageTv from "../assets/sliders/s_2.webp";
-import bannerImageSofa from "../assets/sliders/s_3.webp";
+import bannerImageCognitive from "../assets/sliders/s_1.png";
+import bannerImageEnergy from "../assets/sliders/s_2.png";
+import bannerImageJoint from "../assets/sliders/s_3.png";
+import bannerImageAll from "../assets/sliders/s_4.png";
 
-export { bannerImageKids, bannerImageTv, bannerImageSofa };
+export {
+  bannerImageCognitive,
+  bannerImageEnergy,
+  bannerImageJoint,
+  bannerImageAll,
+};

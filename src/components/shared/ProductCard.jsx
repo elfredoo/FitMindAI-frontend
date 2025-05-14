@@ -25,15 +25,15 @@ export default function ProductCard({ product, about = false }) {
   };
 
   return (
-    <div className="border rounded-lg shadow-xl overflow-hidden transition-shadow duration-300">
+    <div className="rounded-lg shadow-xl overflow-hidden transition-shadow duration-300 ">
       <div
         onClick={() => {
           handleProductView(product);
         }}
-        className="w-full overflow-hidden aspect-[3/2]"
+        className="w-full overflow-hidden aspect-[3/2] flex justify-center items-center"
       >
         <img
-          className="w-full h-full cursor-pointer transition-transform duration-300 transform hover:scale-105"
+          className="h-60 cursor-pointer transition-transform duration-300 transform hover:scale-105 "
           src={product.image}
           alt={product.productName}
         />

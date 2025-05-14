@@ -16,6 +16,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Register from "./components/auth/Register";
 import Checkout from "./components/checkout/Checkout";
 import PaymentConfirmation from "./components/checkout/PaymentConfirmation";
+import AskAI from "./components/ai/AskAI";
+import UserProfile from "./components/user/UserProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +41,8 @@ function App() {
             <Route path="/signup" element={<Register />} />
           </Route>
           <Route path="/" element={<PrivateRoute />}>
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/ask-ai" element={<AskAI />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-confirm" element={<PaymentConfirmation />} />
           </Route>
