@@ -1,7 +1,6 @@
 <p align="right">
   <a href="#polski">🇵🇱 Polski</a> | <a href="#english">🇬🇧 English</a>
 </p>
----
 
 <h2 id="polski">🇵🇱 FitMindAI – Frontend</h2>
 
