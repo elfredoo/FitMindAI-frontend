@@ -156,8 +156,7 @@ export const addUpdateUserAddress =
       toast.success("Address saved successfully");
       dispatch({ type: "IS_SUCCESS" });
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.mesage || "Internal Server Error");
+      toast.error(error?.response?.data?.message || "Internal Server Error");
       dispatch({ type: "IS_ERROR", payload: null });
     } finally {
       setOpenAddressModal(false);
@@ -318,3 +317,76 @@ export const getProductsRecommendation =
       });
     }
   };
+
+export const updateUser = (data) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const response = await api.put("/auth/user", data);
+    if (response.data) {
+      dispatch({ type: "IS_SUCCESS" });
+      dispatch({ type: "LOGIN_USER", payload: response.data });
+      localStorage.setItem("auth", JSON.stringify(response.data));
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to update info.",
+    });
+  }
+};
+
+export const getUserOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get(`/orders`);
+    console.log(data);
+    dispatch({
+      type: "FETCH_ORDERS",
+      payload: data.content,
+      // pageNumber: data.pageNumber,
+      // pageSize: data.pageSize,
+      // totalElements: data.totalElements,
+      // totalPages: data.totalPages,
+      // lastPage: data.lastPage,
+    });
+    dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to fetch orders.",
+    });
+  }
+};
+
+export const getOrderById = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get(`/orders/${orderId}`);
+    dispatch({ type: "IS_SUCCESS" });
+    return data;
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to fetch order.",
+    });
+  }
+};
+
+export const getAddressById = (addressId) => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get(`/addresses/${addressId}`);
+    dispatch({ type: "IS_SUCCESS" });
+    return data;
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to fetch address.",
+    });
+  }
+};

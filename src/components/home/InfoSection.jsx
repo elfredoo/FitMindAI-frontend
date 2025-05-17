@@ -84,9 +84,9 @@ export default function InfoSection() {
   });
 
   return (
-    <div className="overflow-hidden bg-white py-6">
+    <div className="overflow-hidden w-full bg-white py-6">
       <motion.div
-        className="flex gap-4 w-max"
+        className="inline-flex gap-4 whitespace-nowrap"
         ref={containerRef}
         animate={{ x: ["0%", "-50%"] }}
         transition={{

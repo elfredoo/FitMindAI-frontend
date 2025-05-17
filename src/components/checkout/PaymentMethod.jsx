@@ -33,27 +33,57 @@ export default function PaymentMethod() {
   }, [dispatch, cartId, cart, errorMessage]);
 
   return (
-    <div className="max-w-md mx-auto p-5 bg-white shadom-md rounded-lg mt-16 border">
-      <h1 className="text-2xl font-semibold mb-4">Select Payment Method</h1>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-16 border border-gray-200">
+      <h1 className="text-2xl font-semibold mb-6 text-gray-900">
+        Select Payment Method
+      </h1>
       <FormControl>
         <RadioGroup
-          aria-labelledby="payment method"
+          aria-labelledby="payment-method-label"
           name="paymentMethod"
           value={paymentMethod}
           onChange={(e) => paymentMethodHandler(e.target.value)}
+          className="flex flex-col gap-4"
         >
-          <FormControlLabel
-            value="Stripe"
-            control={<Radio color="primary" />}
-            label="Stripe"
-            className="text-gray-700"
-          />
-          <FormControlLabel
-            value="Paypal"
-            control={<Radio color="primary" />}
-            label="Paypal"
-            className="text-gray-700"
-          />
+          {["Stripe", "Paypal"].map((method) => (
+            <FormControlLabel
+              key={method}
+              value={method}
+              control={<Radio className="hidden" />}
+              label={
+                <div
+                  className={`
+                cursor-pointer select-none p-4 rounded-lg border transition-shadow duration-300 flex items-center justify-between
+                ${
+                  paymentMethod === method
+                    ? "border-indigo-600 bg-indigo-50 shadow-md"
+                    : "border-gray-300 hover:shadow-lg hover:border-indigo-400"
+                }
+              `}
+                >
+                  <span className="text-gray-800 font-medium">{method}</span>
+                  {/* Tu możesz wstawić ikonkę np. logo Stripe / Paypal */}
+                  {paymentMethod === method && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-indigo-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  )}
+                </div>
+              }
+              className="w-full"
+            />
+          ))}
         </RadioGroup>
       </FormControl>
     </div>

@@ -13,7 +13,6 @@ import { addUpdateUserAddress } from "../../store/actions";
 export default function AddAddressForm({ address, setOpenAddressModal }) {
   const { btnLoader } = useSelector((state) => state.errors);
   const dispatch = useDispatch();
-  console.log(address);
   const {
     register,
     handleSubmit,
@@ -42,22 +41,21 @@ export default function AddAddressForm({ address, setOpenAddressModal }) {
   return (
     <form
       onSubmit={handleSubmit(onSaveAddressHandler)}
-      className="relative bg-white p-8 rounded-2xl w-full max-w-3xl mx-auto"
+      className="relative bg-white dark:bg-zinc-900 p-8 rounded-xl w-full max-w-3xl mx-auto shadow-lg border border-zinc-200 dark:border-zinc-700"
     >
       <button
         type="button"
         onClick={() => setOpenAddressModal(false)}
-        className="absolute top-4 right-4 text-slate-600 hover:text-slate-900"
+        className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-700 dark:hover:text-white transition-colors"
       >
-        <FaTimes size={22} />
+        <FaTimes size={20} />
       </button>
-      {/* Nagłówek */}
-      <div className="flex items-center gap-3 text-3xl font-bold text-gray-800 mb-6 border-b pb-3">
-        <FaAddressCard className="text-blue-600 text-4xl" />
+
+      <div className="flex items-center gap-3 text-2xl font-semibold text-zinc-800 dark:text-zinc-100 mb-6 border-b border-zinc-200 dark:border-zinc-700 pb-3">
+        <FaAddressCard className="text-blue-500" />
         {!address?.addressId ? "Add" : "Edit"} Address
       </div>
 
-      {/* Pola formularza */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <InputField
           label="Building Name"
@@ -121,26 +119,20 @@ export default function AddAddressForm({ address, setOpenAddressModal }) {
         />
       </div>
 
-      {/* Przycisk */}
-      <motion.button
-        whileTap={{ scale: 0.97 }}
-        whileHover={{ scale: 1.03 }}
-        className="relative overflow-hidden flex gap-2 items-center justify-center font-semibold text-white w-full py-3 rounded-md shadow-md"
+      <button
         type="submit"
         disabled={btnLoader}
+        className="w-full py-3 rounded-md text-white bg-zinc-800 hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600 font-medium transition-colors duration-200"
       >
-        <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-md"></span>
-        <span className="relative z-10 flex items-center justify-center gap-2">
-          {btnLoader ? (
-            <>
-              <Spinners />
-              Loading...
-            </>
-          ) : (
-            "Save"
-          )}
-        </span>
-      </motion.button>
+        {btnLoader ? (
+          <div className="flex items-center justify-center gap-2">
+            <Spinners />
+            Saving...
+          </div>
+        ) : (
+          "Save"
+        )}
+      </button>
     </form>
   );
 }

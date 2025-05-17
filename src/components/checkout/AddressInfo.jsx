@@ -9,7 +9,7 @@ import { DeleteModal } from "./DeleteModal";
 import toast from "react-hot-toast";
 import { deleteUserAddress } from "../../store/actions";
 
-export default function AddressInfo({ address }) {
+export default function AddressInfo({ address, mode = "checkout" }) {
   const [openAddressModal, setOpenAddressModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
@@ -36,9 +36,11 @@ export default function AddressInfo({ address }) {
           <h1 className="mb-2 text-slate-900 text-center font-semibold text-2xl">
             No Address Added Yet
           </h1>
-          <p className="mb-6 text-slate-800 text-center ">
-            Please add your address to complete purchase
-          </p>
+          {mode === "checkout" && (
+            <p className="mb-6 text-slate-800 text-center ">
+              Please add your address to complete purchase
+            </p>
+          )}
           <button
             className="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition-all"
             onClick={addNewAddressHandler}
@@ -49,7 +51,7 @@ export default function AddressInfo({ address }) {
       ) : (
         <div className="relative p-6 rounded-lg max-w-md mx-auto">
           <h1 className="text-slate-800 text-center font-bold text-2xl">
-            Select Address
+            {mode === "checkout" ? "Select Address" : "Your Addresses"}
           </h1>
           {isLoading ? (
             <div className="py-4 px-8">

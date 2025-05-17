@@ -4,35 +4,41 @@ import { motion } from "framer-motion";
 
 export default function CartEmpty() {
   return (
-    <div className="min-h-[800px] flex flex-col items-center justify-center">
-      <div className="flex flex-col items-center">
-        <MdShoppingCart size={80} className="mb-4 text-slate-500" />
-        <div className="text-3xl font-bold text-slate-700">
-          Your cart is empty
-        </div>
-        <div className="text-lg mt-2 text-slate-500">
-          Add some products to get started
-        </div>
-      </div>
-      <div className="mt-6">
-        <Link
-          to="/"
-          className="flex gap-2 items-center mt-2 group transition-colors duration-300"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-[800px] flex flex-col items-center justify-center px-4 text-center"
+    >
+      <motion.div
+        animate={{ rotate: [0, 10, -10, 10, -10, 0] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        className="mb-6 text-slate-400"
+      >
+        <MdShoppingCart size={90} />
+      </motion.div>
+
+      <h2 className="text-4xl font-extrabold text-slate-700 mb-2 select-none">
+        Your cart is empty
+      </h2>
+      <p className="text-lg text-slate-500 mb-6 select-none">
+        Add some products to get started
+      </p>
+
+      <Link
+        to="/"
+        className="inline-flex items-center gap-2 group px-6 py-3 rounded-md bg-gradient-to-r from-slate-800 to-yellow-800 text-white font-semibold shadow-lg hover:shadow-2xl transition-shadow duration-300 select-none"
+      >
+        <motion.span
+          whileHover={{ x: -6 }}
+          whileTap={{ x: -12 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="flex items-center"
         >
-          <motion.span
-            whileHover={{ x: -4 }}
-            whileTap={{ x: -8 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="flex items-center text-slate-600 group-hover:text-rose-600 transition-colors duration-300"
-          >
-            <MdArrowBack className="transition-colors duration-300 group-hover:text-rose-600" />
-            <span className="ml-1 relative">
-              <span className="z-10 relative">Start Shopping</span>
-              <span className="absolute inset-0 z-0 rounded px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-r from-rose-100 to-pink-100"></span>
-            </span>
-          </motion.span>
-        </Link>
-      </div>
-    </div>
+          <MdArrowBack size={24} />
+        </motion.span>
+        Start Shopping
+      </Link>
+    </motion.div>
   );
 }

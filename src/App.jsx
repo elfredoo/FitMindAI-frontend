@@ -18,6 +18,10 @@ import Checkout from "./components/checkout/Checkout";
 import PaymentConfirmation from "./components/checkout/PaymentConfirmation";
 import AskAI from "./components/ai/AskAI";
 import UserProfile from "./components/user/UserProfile";
+import OrderDetails from "@/components/order/OrderDetails";
+import Invoice from "@/components/order/Invoice";
+import OrdersTab from "@/components/order/OrdersTab";
+import Footer from "@/components/shared/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,25 +33,47 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/" element={<PrivateRoute publicPage />}>
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/signup" element={<Register />} />
-          </Route>
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/ask-ai" element={<AskAI />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-confirm" element={<PaymentConfirmation />} />
-          </Route>
-        </Routes>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/cart" element={<Cart />} />
+
+              <Route path="/" element={<PrivateRoute publicPage />}>
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/signup" element={<Register />} />
+              </Route>
+
+              <Route path="/" element={<PrivateRoute />}>
+                <Route
+                  path="/profile/orders/:orderId"
+                  element={<OrderDetails />}
+                />
+                <Route path="/profile/orders" element={<OrdersTab />} />
+                <Route
+                  path="/profile/orders/:orderId/invoice"
+                  element={<Invoice />}
+                />
+                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/ask-ai" element={<AskAI />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route
+                  path="/order-confirm"
+                  element={<PaymentConfirmation />}
+                />
+              </Route>
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </BrowserRouter>
+
       <Toaster position="bottom-center" />
     </>
   );

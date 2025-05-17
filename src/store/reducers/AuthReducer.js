@@ -1,5 +1,6 @@
 const initialState = {
   user: null,
+  userOrders: [],
   address: [],
   clientSecret: null,
   selectedUserAddress: null,
@@ -24,6 +25,11 @@ export const authReducer = (state = initialState, action) => {
       return { ...state, clientSecret: action.payload };
     case "REMOVE_CLIENT_SECRET_ADDRESS":
       return { ...state, clientSecret: null, selectedUserAddress: null };
+    case "FETCH_ORDERS":
+      return {
+        ...state,
+        userOrders: action.payload,
+      };
     default:
       return state;
   }

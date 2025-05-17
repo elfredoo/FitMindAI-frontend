@@ -7,7 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import { IoIosMenu } from "react-icons/io";
 import { useSelector } from "react-redux";
 import UserMenu from "../user/UserMenu";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo_2.png";
 
 const slogans = ["Boost focus", "Burn fat", "Sleep better"];
 
@@ -26,14 +26,24 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 text-white shadow-md animate-gradient-move">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-gray-800 to-yellow-900 text-white shadow-md animate-gradient-move print:hidden">
       <div className="mx-auto px-4 sm:px-8 lg:px-14 h-[70px] flex items-center justify-between">
         {/* Logo i nazwa */}
         <NavLink
           to="/"
           className="flex items-center gap-2 sm:gap-3 text-2xl font-extrabold tracking-wide"
         >
-          <img src={logo} alt="FitMindAI Logo" className="h-40  object-cover" />
+          <motion.img
+            src={logo}
+            alt="FitMindAI Logo"
+            className="h-26 w-auto object-contain"
+            whileHover={{
+              scale: 1.07,
+              filter: "drop-shadow(0 0 8px rgba(204, 153, 0, 0.6))",
+              transition: { duration: 0.4, ease: "easeInOut" },
+            }}
+            whileTap={{ scale: 0.96 }}
+          />
           <AnimatePresence mode="wait">
             <motion.div
               key={slogans[sloganIndex]}
@@ -41,14 +51,12 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -10, scale: 1.05, filter: "blur(6px)" }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="text-sm font-medium text-[#000000] tracking-tight"
+              className="text-sm font-medium text-gray-200 tracking-tight"
             >
               {slogans[sloganIndex]}
             </motion.div>
           </AnimatePresence>
-          {/* <span className="text-white">FitMindAI</span> */}
         </NavLink>
-
         {/* Menu - desktop */}
         <nav className="hidden sm:flex gap-8 font-medium text-sm items-center">
           {["/", "/products", "/ask-ai", "/About"].map((path, i) => {
@@ -61,7 +69,7 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   isActive
                     ? "text-white font-semibold"
-                    : "text-gray-200 hover:text-white transition"
+                    : "text-gray-300 hover:text-white transition"
                 }
               >
                 {label}
@@ -88,7 +96,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.03 }}
                 className="relative overflow-hidden font-semibold py-2 px-4 rounded-sm text-white transition-all duration-300"
               >
-                <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></span>
+                <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-gray-700 via-gray-600 to-yellow-900"></span>
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <FaSignInAlt className="text-lg" /> Login
                 </span>
@@ -108,7 +116,7 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       <div
-        className={`sm:hidden transition-all duration-300 overflow-hidden bg-pink-500/90 ${
+        className={`sm:hidden transition-all duration-300 overflow-hidden bg-gray-800/90 ${
           navbarOpen ? "max-h-[300px] py-4" : "max-h-0"
         }`}
       >
@@ -123,7 +131,7 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   isActive
                     ? "text-white font-semibold"
-                    : "text-gray-100 hover:text-white transition"
+                    : "text-gray-300 hover:text-white transition"
                 }
               >
                 {label}
@@ -146,7 +154,7 @@ export default function Navbar() {
                   whileHover={{ scale: 1.03 }}
                   className="relative overflow-hidden font-semibold py-2 px-4 rounded-sm text-white transition-all duration-300"
                 >
-                  <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></span>
+                  <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-gray-700 via-gray-600 to-yellow-900"></span>
 
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <FaSignInAlt className="text-lg" /> Login

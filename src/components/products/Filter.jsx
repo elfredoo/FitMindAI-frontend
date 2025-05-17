@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { FiArrowDown, FiArrowUp, FiRefreshCw, FiSearch } from "react-icons/fi";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Filter({ categories }) {
   const [searchParams] = useSearchParams();
@@ -39,7 +40,7 @@ export default function Filter({ categories }) {
       }
       console.log(searchTerm);
       navigate(`${pathName}?${searchParams.toString()}`);
-    }, 700);
+    }, 300);
     return () => {
       clearTimeout(handler);
     };
@@ -70,33 +71,46 @@ export default function Filter({ categories }) {
     navigate({ pathName: window.location.pathname });
   };
   return (
-    <div className="flex lg:flex-row flex-col-reverse lg:justify-between justify-center items-center gap-4">
-      {/* SEARCH BAR */}
-      <div className="relative flex items-center 2xl:w-[450px] sm:w-[420px] w-full">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between p-4 bg-white/70 backdrop-blur-md rounded-xl shadow-md"
+    >
+      {/* SEARCH */}
+      <motion.div
+        whileFocus={{ scale: 1.01 }}
+        className="w-full max-w-xl relative"
+      >
         <input
           type="text"
-          placeholder="Search Products"
+          placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border border-gray-400 text-slate-800 rounded-md py-2  pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+          className="w-full py-3 pl-12 pr-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-600 focus:outline-none text-sm text-gray-800 bg-white shadow-sm transition"
         />
-        <FiSearch className="absolute left-3 text-slate-800 size={20}" />
-      </div>
+        <FiSearch
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+          size={18}
+        />
+      </motion.div>
 
-      {/* CATEGORY SELECT */}
-      <div className="flex sm:flex-row flex-col gap-4 items-center">
-        <FormControl
-          className="text-slate-800 border-slate-700"
-          variant="outlined"
-          size="small"
-        >
+      {/* FILTER CONTROLS */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="flex flex-wrap justify-center sm:justify-end gap-4"
+      >
+        {/* Category Select */}
+        <FormControl variant="outlined" size="small" className="min-w-[160px]">
           <InputLabel id="category-select-label">Category</InputLabel>
           <Select
             labelId="category-select-label"
             value={category}
             onChange={handleCategoryChange}
             label="Category"
-            className="min-w-[120px] text-slate-800 border-slate-700"
+            className="bg-white rounded-md"
           >
             <MenuItem value="all">All</MenuItem>
             {categories.map((item) => (
@@ -107,30 +121,34 @@ export default function Filter({ categories }) {
           </Select>
         </FormControl>
 
-        {/* SORT BUTTON & CLEAR FILTER */}
-        <Tooltip title="Sorted by price: asc">
-          <Button
-            variant="contained"
-            color="primary"
-            className="flex items-center gap-2 h-10"
+        {/* Sort Button */}
+        <Tooltip title={`Sorted by price: ${sortOrder}`}>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.96 }}
             onClick={toggleSortOrder}
+            className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-medium text-sm px-4 py-2 rounded-md shadow-sm transition"
           >
-            Sort By
-            {sortOrder == "asc" ? (
-              <FiArrowUp size={20} />
+            Sort by
+            {sortOrder === "asc" ? (
+              <FiArrowUp size={16} />
             ) : (
-              <FiArrowDown size={20} />
+              <FiArrowDown size={16} />
             )}
-          </Button>
+          </motion.button>
         </Tooltip>
-        <button
-          className="flex items-center gap-2 bg-rose-900 text-white px-3 py-2 rounded-md transition duration-300 ease-in shadow-md focus:outline-none "
+
+        {/* Clear Filter Button */}
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.96 }}
           onClick={handleClearFilter}
+          className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium text-sm px-4 py-2 rounded-md border border-gray-300 shadow-sm transition"
         >
-          <FiRefreshCw className="font-semibold" size={16} />
-          <span className="font-semibold">Clear Filter</span>
-        </button>
-      </div>
-    </div>
+          <FiRefreshCw size={16} />
+          Clear Filter
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 }

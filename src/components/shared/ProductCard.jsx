@@ -5,6 +5,8 @@ import { truncateText } from "../../utils/truncateText";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/actions";
 import toast from "react-hot-toast";
+import { ShoppingBasket } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ProductCard({ product, about = false }) {
   const [openProductViewModal, setOpenProductViewModal] = useState(false);
@@ -24,19 +26,40 @@ export default function ProductCard({ product, about = false }) {
     dispatch(addToCart(cartItems, 1, toast));
   };
 
+  console.log(product.image);
+
   return (
-    <div className="rounded-lg shadow-xl overflow-hidden transition-shadow duration-300 ">
+    <div className="rounded-lg shadow-xl overflow-hidden transition-shadow duration-300">
       <div
-        onClick={() => {
-          handleProductView(product);
-        }}
-        className="w-full overflow-hidden aspect-[3/2] flex justify-center items-center"
+        onClick={() => handleProductView(product)}
+        className="w-full overflow-hidden aspect-[3/2] relative flex justify-center items-center"
       >
-        <img
-          className="h-60 cursor-pointer transition-transform duration-300 transform hover:scale-105 "
+        <motion.img
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.4 }}
+          className="w-full h-full object-contain cursor-pointer drop-shadow-2xl"
           src={product.image}
           alt={product.productName}
         />
+
+        {!about && (
+          <button
+            disabled={!isAvailable || btnLoader}
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCartHandler(product);
+            }}
+            className={`absolute bottom-3 right-3 bg-slate-800 ${
+              isAvailable
+                ? "opacity-100 hover:bg-slate-600"
+                : "opacity-70 cursor-not-allowed"
+            } text-white py-2 px-3 rounded-lg flex items-center justify-center shadow-md transition-all duration-300`}
+          >
+            <ShoppingBasket className="" />
+          </button>
+        )}
       </div>
       <div className="p-4">
         <h2
@@ -70,16 +93,6 @@ export default function ProductCard({ product, about = false }) {
                 ${Number(product.price).toFixed(2)}
               </span>
             )}
-            <button
-              disabled={!isAvailable || btnLoader}
-              onClick={() => addToCartHandler(product)}
-              className={`bg-blue-500 ${
-                isAvailable ? "opacity-100 hover:bg-blue-600" : "opacity-70"
-              } text-white py-2 px-3 rounded-lg items-center transition-colors duration-300 w-34 flex justify-center`}
-            >
-              <FaShoppingCart className="mr-2" />
-              {isAvailable ? "Add to Cart" : "Stock Out"}
-            </button>
           </div>
         )}
       </div>
