@@ -1,68 +1,107 @@
-# FitMindAI – Frontend
+<p align="right">
+  <a href="#polski">🇵🇱 Polski</a> | <a href="#english">🇬🇧 English</a>
+</p>
+---
 
-**FitMindAI** to nowoczesna aplikacja webowa typu e-commerce, która pozwala użytkownikom na:
+<h2 id="polski">🇵🇱 FitMindAI – Frontend</h2>
 
-- zakładanie konta,
-- wyszukiwanie i przeglądanie produktów,
-- dodawanie produktów do koszyka,
-- składanie zamówień,
-- dokonywanie płatności kartą,
-- korzystanie z chatbota AI w celu uzyskania sugestii produktowych.
+**FitMindAI** to nowoczesna aplikacja webowa typu e-commerce, która umożliwia użytkownikowi:
 
-## Opis projektu
+- założenie konta,  
+- przeglądanie i wyszukiwanie produktów,  
+- dodawanie produktów do koszyka,  
+- składanie zamówień,  
+- płatność kartą,  
+- zapytanie chatbota AI o rekomendacje produktowe.
 
-Projekt został stworzony w oparciu o bibliotekę **React**, jedną z najpopularniejszych technologii frontendowych na świecie. Dzięki niej interfejs użytkownika jest responsywny, dynamiczny i bardzo przyjemny w obsłudze.
+### Opis projektu
 
-Strona zawiera m.in.:
+Projekt został zbudowany w technologii **React**, jednej z najpopularniejszych bibliotek frontendowych na świecie. Strona jest szybka, interaktywna i bardzo responsywna.
 
-- animowane slajdy z banerami,
-- efekt „Marquee” do prezentowania informacji o sklepie i opiniach,
-- wiele nowoczesnych, responsywnych komponentów z animacjami.
+Funkcje strony:
 
-Dane produktów pobierane są z bazy danych **PostgreSQL** za pośrednictwem dedykowanego API (zobacz repozytorium `FitMindAI-backend`). Frontend współpracuje z backendem w sposób płynny, co zapewnia bezproblemowy przepływ danych.
+- animowane slajdy banerowe,  
+- efekt "Marquee" z informacjami o sklepie i opiniach,  
+- pięknie zaanimowane, responsywne przyciski i komponenty interfejsu.
 
-Użytkownicy mogą składać zamówienia i przechodzić przez proces płatności online. W tym celu zintegrowano **Stripe**, czyli jedno z najpopularniejszych i najbezpieczniejszych rozwiązań do obsługi płatności w branży.
+Dane produktowe pobierane są z bazy **PostgreSQL** przez napisane przeze mnie API (`FitMindAI-backend`, dostępne w osobnym repozytorium). Frontend współpracuje z backendem bezproblemowo.
 
-Dodatkowo, aplikacja umożliwia generowanie faktur – co stanowi niezbędną funkcjonalność dla profesjonalnego sklepu e-commerce.
+Użytkownik po dodaniu produktów do koszyka przechodzi do sekcji płatności, gdzie wpisuje adres dostawy i opłaca zamówienie. Wykorzystałem **Stripe** – jedno z najbezpieczniejszych rozwiązań płatniczych na rynku.
+
+Dodatkowo, użytkownik może wygenerować fakturę zamówienia – co jest kluczową funkcją w sklepie internetowym.
+
+### 🛠 Stack technologiczny
+
+- React 18  
+- Vite  
+- Tailwind CSS  
+- Material UI  
+- Emotion  
+- Redux Toolkit  
+- React Router  
+- React Query  
+- Axios  
+- Stripe JS  
+- Framer Motion  
+- React Hook Form  
+- Swiper  
+- React Icons, Lucide React  
+- React Markdown  
+- Toasty, Spinnery, Animacje  
+- ESLint, PostCSS, ShadCN, Radix UI
 
 ---
 
-## 🛠 Tech Stack
+<h2 id="english">🇬🇧 FitMindAI – Frontend</h2>
 
-**Frontend:**
+**FitMindAI** is a modern web-based e-commerce application that allows users to:
 
-- **React 18** – biblioteka do budowy interfejsów użytkownika  
-- **Vite** – nowoczesny bundler i dev server  
-- **Material UI (`@mui/material`)** – zestaw gotowych komponentów UI  
-- **Emotion (`@emotion/react`, `@emotion/styled`)** – stylowanie komponentów (CSS-in-JS)  
-- **Tailwind CSS** – nowoczesny utility-first framework CSS  
-- **Redux Toolkit & React Redux** – zarządzanie globalnym stanem aplikacji  
-- **React Router DOM** – routing i nawigacja  
-- **React Query** (`@tanstack/react-query`) – zarządzanie zapytaniami i cache  
-- **Axios** – komunikacja HTTP z backendem  
-- **Stripe JS & React Stripe JS** – obsługa płatności online  
-- **Framer Motion** – animacje i przejścia  
-- **React Hook Form** – obsługa i walidacja formularzy  
-- **React Hot Toast** – powiadomienia toast  
-- **Swiper** – slider / karuzela  
-- **React Icons & Lucide React** – ikony SVG  
-- **React Markdown** – renderowanie treści w markdownie  
-- **React Loader Spinner & React Spinners Kit** – wskaźniki ładowania  
-- **Radix UI** – nowoczesne, niskopoziomowe komponenty UI (avatar, tabs, scroll area)  
-- **ShadCN** – system kompozycji komponentów oparty o Tailwind CSS  
-- **clsx & class-variance-authority** – zarządzanie klasami CSS  
-- **PostCSS, autoprefixer** – narzędzia wspierające CSS  
-- **ESLint** – analiza jakości kodu  
+- create an account,  
+- browse and search for products,  
+- add items to the shopping cart,  
+- place orders,  
+- pay via credit card,  
+- get personalized product suggestions from an AI chatbot.
+
+### Project Overview
+
+The project was built using **React**, one of the most popular frontend libraries globally. The app is fast, interactive, and highly responsive.
+
+Site features:
+
+- animated banner sliders,  
+- "Marquee" effects with shop info and testimonials,  
+- beautifully animated, responsive UI components and buttons.
+
+Product data is fetched from a **PostgreSQL** database through my custom API (`FitMindAI-backend`, available in a separate repository). The frontend integrates seamlessly with the backend.
+
+After adding items to the cart, the user can proceed to checkout, enter a shipping address, and securely pay using **Stripe** – one of the most secure and widely-used payment solutions in the industry.
+
+Users can also generate an invoice – a must-have feature for e-commerce platforms.
+
+### 🛠 Tech Stack
+
+- React 18  
+- Vite  
+- Tailwind CSS  
+- Material UI  
+- Emotion  
+- Redux Toolkit  
+- React Router  
+- React Query  
+- Axios  
+- Stripe JS  
+- Framer Motion  
+- React Hook Form  
+- Swiper  
+- React Icons, Lucide React  
+- React Markdown  
+- Toasts, Spinners, Animations  
+- ESLint, PostCSS, ShadCN, Radix UI
 
 ---
 
-## 🔗 Linki
-
-- 🔙 [Backend (API)](https://github.com/elfredoo/FitMindAI-backend)  
-- 👤 Autor: **Bartek Rafalik** 
-
----
-
-## 🧾 Licencja
-
-Projekt open-source. Używaj i rozwijaj dalej!  
+<p align="center">
+  👤 Author: <strong>Bartek Rafalik</strong><br>
+  🔗 <a href="https://github.com/elfredoo/FitMindAI-backend">Backend Repository</a>
+</p>
