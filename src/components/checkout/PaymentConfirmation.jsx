@@ -35,8 +35,6 @@ export default function PaymentConfirmation() {
         pgStatus: "succeeded",
         pgResponseMessage: "Payment Successfull",
       };
-      console.log("sendData", sendData);
-      console.log(selectedUserAddress);
       dispatch(
         stripePaymentConfirmation(sendData, setErrorMessage, setLoading, toast)
       );

@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import ItemContent from "./ItemContent";
 import CartEmpty from "./CartEmpty";
 import { formatPrice } from "../../utils/formatPrice";
-import { useEffect } from "react";
-import { fetchProducts } from "../../store/actions";
+import defaultProductImg from "../../assets/default_product.png";
 
 export default function Cart() {
   const { cart } = useSelector((state) => state.carts);
@@ -15,9 +14,6 @@ export default function Cart() {
     (acc, curr) => acc + Number(curr?.specialPrice) * Number(curr?.quantity),
     0
   );
-  const dispatch = useDispatch();
-
-  console.log(cart);
 
   if (!cart || cart.length === 0) {
     return <CartEmpty />;
@@ -46,7 +42,13 @@ export default function Cart() {
       {/* Cart Items */}
       <div className="divide-y divide-gray-300">
         {cart && cart.length > 0 ? (
-          cart.map((item, index) => <ItemContent key={index} item={item} />)
+          cart.map((item, index) => (
+            <ItemContent
+              key={index}
+              item={item}
+              defaultImg={defaultProductImg}
+            />
+          ))
         ) : (
           <p className="text-center py-12 text-gray-400 italic font-light">
             Your cart is empty

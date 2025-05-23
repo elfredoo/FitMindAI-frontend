@@ -50,7 +50,7 @@ export default function About() {
         <div className="w-full lg:w-1/2 space-y-4">
           <h2 className="text-2xl font-bold text-slate-800">Who We Are</h2>
           <p className="text-slate-600">
-            At Bartosz Rafałko sp. z o.o., we strive to provide top-quality
+            At Bartek Rafalik sp. z o.o., we strive to provide top-quality
             products and a seamless online shopping experience. From the heart
             of Augustów, our team works hard to earn your trust every day.
           </p>
@@ -159,7 +159,7 @@ export default function About() {
         </h2>
         <ul className="text-slate-700 space-y-2">
           <li>
-            <strong>Company:</strong> Bartosz Rafałko sp. z o.o.
+            <strong>Company:</strong> Bartek Rafalik sp. z o.o.
           </li>
           <li>
             <strong>Address:</strong> Zygmuntowska, 16-300 Augustów

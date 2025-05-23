@@ -4,6 +4,8 @@ const initialState = {
   address: [],
   clientSecret: null,
   selectedUserAddress: null,
+  sellerProducts: [],
+  recentSales: [],
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -29,6 +31,16 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         userOrders: action.payload,
+      };
+    case "FETCH_SELLER_PRODUCTS":
+      return {
+        ...state,
+        sellerProducts: action.payload,
+      };
+    case "FETCH_RECENT_SALES":
+      return {
+        ...state,
+        recentSales: action.payload,
       };
     default:
       return state;

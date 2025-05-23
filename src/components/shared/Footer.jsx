@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300 py-6 mt-auto">
       <div className="container mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
         <div className="text-center sm:text-left mb-3 sm:mb-0">
-          <p className="font-semibold text-lg">Bartek Rafałko</p>
+          <p className="font-semibold text-lg">Bartek Rafalik</p>
           <p className="text-sm">
             Email:{" "}
             <a

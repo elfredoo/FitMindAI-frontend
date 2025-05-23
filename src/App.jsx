@@ -22,6 +22,9 @@ import OrderDetails from "@/components/order/OrderDetails";
 import Invoice from "@/components/order/Invoice";
 import OrdersTab from "@/components/order/OrdersTab";
 import Footer from "@/components/shared/Footer";
+import SellerPanel from "@/components/seller/SellerPanel";
+import MyProducts from "@/components/seller/MyProducts";
+import MyEarnings from "@/components/seller/MyEarnings";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +53,11 @@ function App() {
               </Route>
 
               <Route path="/" element={<PrivateRoute />}>
+                <Route path="/" element={<PrivateRoute sellerPage={true} />}>
+                  <Route path="/seller" element={<SellerPanel />} />
+                  <Route path="/seller/products" element={<MyProducts />} />
+                  <Route path="/seller/earnings" element={<MyEarnings />} />
+                </Route>
                 <Route
                   path="/profile/orders/:orderId"
                   element={<OrderDetails />}

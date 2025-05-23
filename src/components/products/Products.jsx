@@ -2,13 +2,14 @@ import { FaExclamationTriangle } from "react-icons/fa";
 import ProductCard from "../shared/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchCategoies } from "../../store/actions";
+import { fetchCategories } from "../../store/actions";
 import Filter from "./Filter";
 import useProductFilter from "../../hooks/useProductFilter.js";
 import Loader from "../shared/Loader";
 import Paginations from "../shared/Paginations";
 import { motion } from "framer-motion";
 import NoProducts from "@/components/products/NoProducts";
+import defaultProductImg from "../../assets/default_product.png";
 
 export default function Products() {
   const { isLoading, errorMessage } = useSelector((state) => state.errors);
@@ -19,11 +20,11 @@ export default function Products() {
   useProductFilter();
 
   useEffect(() => {
-    dispatch(fetchCategoies());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   return (
-    <div className="lg:px-14 sm:px-8 px-4 py-14 2xl:w-[90%] 2xl:mx-auto">
+    <div className="lg:px-14 sm:px-8 px-4 py-14 2xl:w-[90%] 2xl:max-w-screen-2xl 2xl:mx-auto">
       <Filter categories={categories ?? []} />
 
       {isLoading ? (
@@ -41,22 +42,28 @@ export default function Products() {
         <div className="min-h-[700px]">
           {products.length === 0 ? (
             <div className="flex items-center justify-center h-full">
-              <NoProducts />
+              <NoProducts text="Currently there are no products in this category or your search." />
             </div>
           ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="pb-6 pt-14 grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-y-8 gap-x-6"
+              className="pb-6 pt-14 grid gap-y-10 gap-x-6 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]"
             >
               {products.map((product, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.03 }}
                   transition={{ duration: 0.2 }}
+                  className="w-full flex justify-center"
                 >
-                  <ProductCard product={product} />
+                  <div className="w-full max-w-[280px] sm:max-w-[320px]">
+                    <ProductCard
+                      product={product}
+                      defaultPhoto={defaultProductImg}
+                    />
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -67,7 +74,6 @@ export default function Products() {
               totalProducts={pagination?.totalElements}
             />
           </div>
-          ;
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { current } from "@reduxjs/toolkit";
 import api from "../../api/api";
+import { validateProduct } from "@/utils/validation";
 
 export const fetchProducts = (queryString) => async (dispatch) => {
   try {
@@ -16,14 +17,13 @@ export const fetchProducts = (queryString) => async (dispatch) => {
     });
     dispatch({ type: "IS_SUCCESS" });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch products",
     });
   }
 };
-export const fetchCategoies = () => async (dispatch) => {
+export const fetchCategories = () => async (dispatch) => {
   try {
     dispatch({ type: "CATEGORY_LOADER" });
     const { data } = await api.get(`/public/categories`);
@@ -38,7 +38,6 @@ export const fetchCategoies = () => async (dispatch) => {
     });
     dispatch({ type: "CATEGORY_SUCCESS" });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch categories",
@@ -113,7 +112,6 @@ export const authenticateSignInUser =
       toast.success("Login Success");
       navigate("/");
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.mesage || "Internal Server Error");
     } finally {
       setLoader(false);
@@ -129,7 +127,6 @@ export const registerNewUser =
       toast.success(data?.message || "User registered successfully");
       navigate("/login");
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.message || "Internal Server Error");
     } finally {
       setLoader(false);
@@ -173,7 +170,6 @@ export const getUserAddresses = () => async (dispatch, getState) => {
     });
     dispatch({ type: "IS_SUCCESS" });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload:
@@ -206,7 +202,6 @@ export const deleteUserAddress =
       clearCheckoutAddress();
       toast.success("Address deleted successfully");
     } catch (error) {
-      console.log(error);
       dispatch({
         type: "IS_ERROR",
         payload: error?.response?.data?.message || "Some Error Occured",
@@ -229,7 +224,6 @@ export const createUserCart = (sendCartItems) => async (dispatch, getState) => {
     await api.post("/carts/create", sendCartItems);
     await dispatch(getUserCart());
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to create cart items",
@@ -250,7 +244,6 @@ export const getUserCart = () => async (dispatch, getState) => {
     localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
     dispatch({ type: "IS_SUCCESS" });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch cart items.",
@@ -270,7 +263,6 @@ export const createStripePaymentSecret =
       dispatch({ type: "IS_SUCCESS" });
       localStorage.setItem("client-secret", JSON.stringify(data));
     } catch (error) {
-      console.error(error);
       toast.error("Failed to create client secret.");
     }
   };
@@ -329,7 +321,6 @@ export const updateUser = (data) => async (dispatch, getState) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to update info.",
@@ -341,7 +332,6 @@ export const getUserOrders = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "IS_FETCHING" });
     const { data } = await api.get(`/orders`);
-    console.log(data);
     dispatch({
       type: "FETCH_ORDERS",
       payload: data.content,
@@ -353,7 +343,6 @@ export const getUserOrders = () => async (dispatch, getState) => {
     });
     dispatch({ type: "IS_SUCCESS" });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch orders.",
@@ -368,7 +357,6 @@ export const getOrderById = (orderId) => async (dispatch, getState) => {
     dispatch({ type: "IS_SUCCESS" });
     return data;
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch order.",
@@ -383,10 +371,231 @@ export const getAddressById = (addressId) => async (dispatch) => {
     dispatch({ type: "IS_SUCCESS" });
     return data;
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "IS_ERROR",
       payload: error?.response?.data?.message || "Failed to fetch address.",
     });
+  }
+};
+
+export const addNewProduct =
+  (newProduct, categoryId, toast) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: "IS_FETCHING" });
+      validateProduct(newProduct, categoryId);
+      const response = await api.post(
+        `/seller/categories/${categoryId}/product`,
+        newProduct
+      );
+      await dispatch(fetchSellerProducts());
+      dispatch({ type: "IS_SUCCESS" });
+      toast.success("Product added successfully");
+      return response;
+    } catch (error) {
+      let errorMessage;
+
+      const responseData = error?.response?.data;
+
+      if (
+        responseData &&
+        typeof responseData === "object" &&
+        !Array.isArray(responseData)
+      ) {
+        const firstKey = Object.keys(responseData)[0];
+        errorMessage = `${firstKey}: ${responseData[firstKey]}`;
+      } else {
+        errorMessage =
+          responseData?.message || error.message || "Failed to create product";
+      }
+
+      dispatch({
+        type: "IS_ERROR",
+        payload: errorMessage,
+      });
+
+      toast.error(errorMessage);
+      return null;
+    }
+  };
+
+export const updateProductImage =
+  (productId, image, toast) => async (dispatch) => {
+    try {
+      dispatch({ type: "IS_FETCHING" });
+
+      const formData = new FormData();
+      formData.append("image", image);
+
+      await api.put(`/seller/products/${productId}/image`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      dispatch({ type: "IS_SUCCESS" });
+      return true;
+    } catch (error) {
+      let errorMessage;
+
+      const responseData = error?.response?.data;
+
+      if (
+        responseData &&
+        typeof responseData === "object" &&
+        !Array.isArray(responseData)
+      ) {
+        const firstKey = Object.keys(responseData)[0];
+        errorMessage = `${firstKey}: ${responseData[firstKey]}`;
+      } else {
+        errorMessage =
+          responseData?.message ||
+          error.message ||
+          "Failed to update product image";
+      }
+
+      dispatch({
+        type: "IS_ERROR",
+        payload: errorMessage,
+      });
+
+      toast.error(errorMessage);
+      return false;
+    }
+  };
+export const fetchSellerProducts = (queryString) => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get(`/seller/products?${queryString}`);
+    dispatch({
+      type: "FETCH_SELLER_PRODUCTS",
+      payload: data,
+    });
+    dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    dispatch({
+      type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to fetch products",
+    });
+  }
+};
+
+export const updateProduct =
+  (product, productId, toast) => async (dispatch) => {
+    try {
+      dispatch({ type: "IS_FETCHING" });
+      const response = await api.put(`/seller/products/${productId}`, product);
+
+      dispatch({ type: "IS_SUCCESS" });
+      toast.success("Product updated successfully");
+      await dispatch(fetchSellerProducts());
+
+      return response;
+    } catch (error) {
+      let errorMessage;
+
+      const responseData = error?.response?.data;
+
+      if (
+        responseData &&
+        typeof responseData === "object" &&
+        !Array.isArray(responseData)
+      ) {
+        const firstKey = Object.keys(responseData)[0];
+        errorMessage = `${firstKey}: ${responseData[firstKey]}`;
+      } else {
+        errorMessage =
+          responseData?.message || error.message || "Failed to update product";
+      }
+
+      dispatch({
+        type: "IS_ERROR",
+        payload: errorMessage,
+      });
+
+      toast.error(errorMessage);
+      return false;
+    }
+  };
+
+export const deleteProduct = (productId, toast) => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const response = await api.put(
+      `seller/products/${productId}/availability`,
+      false,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    dispatch({ type: "IS_SUCCESS" });
+    toast.success("Product deleted successfully");
+    await dispatch(fetchSellerProducts());
+
+    return response;
+  } catch (error) {
+    let errorMessage;
+
+    const responseData = error?.response?.data;
+
+    if (
+      responseData &&
+      typeof responseData === "object" &&
+      !Array.isArray(responseData)
+    ) {
+      const firstKey = Object.keys(responseData)[0];
+      errorMessage = `${firstKey}: ${responseData[firstKey]}`;
+    } else {
+      errorMessage =
+        responseData?.message || error.message || "Failed to delete product";
+    }
+
+    dispatch({
+      type: "IS_ERROR",
+      payload: errorMessage,
+    });
+
+    toast.error(errorMessage);
+    return false;
+  }
+};
+
+export const fetchUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get("/auth/user");
+    dispatch({ type: "LOGIN_USER", payload: data });
+    localStorage.setItem("auth", JSON.stringify(data));
+    dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    dispatch({ type: "IS_ERROR" });
+  }
+};
+
+export const fetchWeeklySales = () => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get("/seller/sales", {
+      params: { pageSize: 7 },
+    });
+    dispatch({ type: "FETCH_RECENT_SALES", payload: data });
+    dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    dispatch({ type: "IS_ERROR" });
+  }
+};
+
+export const becomeSeller = (toast) => async (dispatch) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const response = await api.put("/auth/user/become-seller");
+    dispatch({ type: "IS_SUCCESS" });
+    dispatch({ type: "LOGIN_USER", payload: response.data });
+    localStorage.setItem("auth", JSON.stringify(response.data));
+    toast.success("You successfully became a seller");
+  } catch (error) {
+    toast.error("Unable to grant seller authorities.");
+    dispatch({ type: "IS_ERROR" });
   }
 };

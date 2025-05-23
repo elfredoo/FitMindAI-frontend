@@ -5,14 +5,18 @@ import {
   ThreeDots,
 } from "react-loader-spinner";
 import { motion } from "framer-motion";
+import React from "react";
 
-export default function Loader({ text }) {
+const Loader = React.forwardRef(function Loader({ text }, ref) {
   return (
-    <div className="flex justify-center items-center w-full h-[250px]">
+    <div
+      className="flex justify-center items-center w-full h-[250px]"
+      ref={ref}
+    >
       <div className="flex flex-col items-center gap-6">
         <motion.div
           className="p-5"
-          animate={{ scale: [1, 1.2, 1] }} // Animacja pulsowania
+          animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
         >
           <ThreeDots
@@ -35,7 +39,7 @@ export default function Loader({ text }) {
             backgroundImage:
               "linear-gradient(to right, #4f46e5, #9333ea, #ec4899, #f472b6)",
             WebkitBackgroundClip: "text",
-            animation: "gradient-animation 3s ease infinite", // Animacja tła
+            animation: "gradient-animation 3s ease infinite",
           }}
         >
           {text || "Please wait..."}
@@ -43,4 +47,6 @@ export default function Loader({ text }) {
       </div>
     </div>
   );
-}
+});
+
+export default Loader;

@@ -13,9 +13,15 @@ import {
   LocationEdit,
   SquarePen,
   Check,
+  Badge,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserAddresses, getUserOrders, updateUser } from "@/store/actions";
+import {
+  becomeSeller,
+  getUserAddresses,
+  getUserOrders,
+  updateUser,
+} from "@/store/actions";
 import { motion } from "framer-motion";
 import AddAddressForm from "@/components/checkout/AddAddressForm";
 import AddressInfo from "@/components/checkout/AddressInfo";
@@ -24,6 +30,7 @@ import ErrorPage from "@/components/shared/ErrorPage";
 import { Button } from "@headlessui/react";
 import OrdersTab from "@/components/order/OrdersTab";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function UserProfile() {
   const { address, user, userOrders } = useSelector((state) => state.auth);
@@ -52,7 +59,6 @@ export default function UserProfile() {
         email: user.email,
         phoneNumber: user.phoneNumber,
       });
-      console.log(editableUser);
     }
   }, [user]);
 
@@ -66,6 +72,18 @@ export default function UserProfile() {
     setContactInfoEditMode(false);
   };
 
+  let userText = "FitMindAI Access Level: Basic";
+
+  if (user.roles.includes("ROLE_SELLER")) {
+    userText = "FitMindAI Access Level: Contributor";
+  } else if (user.roles.includes("ROLE_ADMIN")) {
+    userText = "FitMindAI Access Level: Full Control";
+  }
+
+  function handleBecomeSeller() {
+    dispatch(becomeSeller(toast));
+  }
+
   return (
     <>
       <Card className="max-w-4xl mx-auto mt-10 shadow-xl relative min-h-[120px]">
@@ -73,9 +91,25 @@ export default function UserProfile() {
           <User size={40} />
           <div>
             <CardTitle className="text-xl">{user.username}</CardTitle>
-            <p className="text-muted-foreground text-sm">
-              Premium user since 2024
+            <p className="text-muted-foreground text-sm flex items-center gap-2">
+              {userText}{" "}
+              <Badge variant="secondary">
+                {user.roles[0].replace("ROLE_", "")}
+              </Badge>
             </p>
+            {!user.roles.includes("ROLE_SELLER") &&
+              !user.roles.includes("ROLE_ADMIN") && (
+                <div className="ml-auto mt-2">
+                  <Button
+                    className="bg-gradient-to-r from-gray-900 via-gray-800 to-yellow-500 text-yellow-300 
+                         shadow-md hover:scale-105 transition-transform duration-200 rounded-full 
+                         px-4 py-2 text-sm font-semibold drop-shadow"
+                    onClick={handleBecomeSeller}
+                  >
+                    Become a Seller
+                  </Button>
+                </div>
+              )}
           </div>
         </CardHeader>
         <CardContent>

@@ -6,6 +6,7 @@ import { CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@mui/material";
 import { Button } from "@headlessui/react";
 import Invoice from "@/components/order/Invoice";
+import defaultProductImg from "../../assets/default_product.png";
 
 export default function OrderDetails() {
   const { orderId } = useParams();
@@ -34,6 +35,16 @@ export default function OrderDetails() {
 
   if (!order) {
     return <p>No order found.</p>;
+  }
+
+  function getImageUrl(item) {
+    if (item?.image.includes("default.png")) {
+      return defaultProductImg;
+    } else if (item?.image.includes(import.meta.env.VITE_BACK_END_URL)) {
+      return item?.image;
+    } else {
+      return `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`;
+    }
   }
 
   return (
@@ -99,7 +110,7 @@ export default function OrderDetails() {
           >
             <CardContent className="flex items-center p-4 gap-4">
               <img
-                src={`http://localhost:8080/images/${item.product.image}`}
+                src={getImageUrl(item.product)}
                 alt={item.product.productName}
                 className="w-20 h-20 object-contain rounded-md border border-gray-300"
               />

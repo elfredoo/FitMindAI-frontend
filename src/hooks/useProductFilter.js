@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { fetchProducts } from "../store/actions";
+import { fetchProducts, fetchSellerProducts } from "../store/actions";
 
-export default function useProductFilter() {
+export default function useProductFilter(isSeller = false, pageSize = 10) {
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
 
@@ -21,6 +21,7 @@ export default function useProductFilter() {
     const keyword = searchParams.get("keyword") || null;
     params.set("sortBy", "price");
     params.set("sortOrder", sortOrder);
+    params.set("pageSize", pageSize);
 
     if (categoryParams) {
       params.set("category", categoryParams);
@@ -30,8 +31,11 @@ export default function useProductFilter() {
     }
 
     const queryString = params.toString();
-    console.log(queryString);
 
-    dispatch(fetchProducts(queryString));
-  }, [dispatch, searchParams]);
+    if (isSeller) {
+      dispatch(fetchSellerProducts(queryString));
+    } else {
+      dispatch(fetchProducts(queryString));
+    }
+  }, [dispatch, searchParams, isSeller, pageSize]);
 }

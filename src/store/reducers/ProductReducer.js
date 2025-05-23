@@ -1,6 +1,6 @@
 const initialState = {
   products: [],
-  categories: null,
+  categories: [],
   pagination: {},
 };
 
@@ -32,7 +32,6 @@ export const productReducer = (state = initialState, action) => {
           lastPage: action.lastPage,
         },
       };
-
     default:
       return state;
   }

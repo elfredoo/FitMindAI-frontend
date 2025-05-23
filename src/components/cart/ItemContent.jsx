@@ -11,7 +11,7 @@ import {
 import toast from "react-hot-toast";
 import { formatPrice } from "../../utils/formatPrice";
 
-export default function ItemContent({ item }) {
+export default function ItemContent({ item, defaultImg }) {
   const [currentQty, setCurrentQty] = useState(item.quantity);
   const dispatch = useDispatch();
 
@@ -31,12 +31,15 @@ export default function ItemContent({ item }) {
     dispatch(removeFromCart(cartItem, toast));
   };
 
-  console.log(item.image);
+  let imageUrl;
 
-  const imageUrl = item?.image.includes("http://localhost:8080/")
-    ? item?.image
-    : `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`;
-
+  if (item?.image.includes("default.png")) {
+    imageUrl = defaultImg;
+  } else if (item?.image.includes(import.meta.env.VITE_BACK_END_URL)) {
+    imageUrl = item?.image;
+  } else {
+    imageUrl = `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`;
+  }
   return (
     <div className="grid md:grid-cols-5 grid-cols-4 md:text-md text-sm gap-4 items-center  border-[1px] border-slate-200  rounded-md  lg:px-4  py-4 p-2">
       <div className="md:col-span-2 justify-self-start flex  flex-col gap-2 ">

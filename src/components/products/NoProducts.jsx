@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react"; // lub FiShoppingBag jeśli używasz react-icons
 
-export default function NoProducts() {
+export default function NoProducts({ text }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -17,9 +17,7 @@ export default function NoProducts() {
         <ShoppingBag className="w-16 h-16 text-gray-400" />
       </motion.div>
       <p className="text-lg font-medium">No products available.</p>
-      <p className="mt-2 text-sm text-gray-400">
-        Currently there are no products in this category or your search.
-      </p>
+      <p className="mt-2 text-sm text-gray-400">{text}</p>
     </motion.div>
   );
 }

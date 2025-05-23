@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 const colors = ["bg-[#0099CC]", "bg-[#FF5722]", "bg-[#4CAF50]", "bg-[#7B1FA2]"];
 
 export default function HeroBanner() {
-  console.log(bannerLists);
   return (
     <div className="py-2 rounded-md">
       <Swiper
@@ -29,7 +28,6 @@ export default function HeroBanner() {
         effect="fade"
         fadeEffect={{ crossFade: true }}
         parallax={true}
-        lazy={true}
         keyboard={{ enabled: true }}
         mousewheel={{ forceToAxis: true }}
         pagination={{ clickable: true, dynamicBullets: true }}

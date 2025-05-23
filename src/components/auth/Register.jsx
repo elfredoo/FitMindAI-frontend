@@ -23,7 +23,6 @@ export default function Register() {
   } = useForm({ mode: "onTouched" });
 
   const registerHandler = async (data) => {
-    console.log(data);
     dispatch(registerNewUser(data, toast, reset, navigate, setLoader));
   };
 

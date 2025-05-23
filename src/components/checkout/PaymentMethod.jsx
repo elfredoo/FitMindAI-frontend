@@ -16,7 +16,6 @@ export default function PaymentMethod() {
 
   const paymentMethodHandler = (method) => {
     dispatch(addPaymentMethod(method));
-    console.log(method);
   };
 
   useEffect(() => {

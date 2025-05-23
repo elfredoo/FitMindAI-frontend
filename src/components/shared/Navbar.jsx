@@ -87,6 +87,11 @@ export default function Navbar() {
               <FaShoppingCart size={22} />
             </Badge>
           </NavLink>
+          {user && user.id && user.roles.includes("ROLE_SELLER") && (
+            <NavLink to="/seller">
+              <p>My Marketplace</p>
+            </NavLink>
+          )}
           {user && user.id ? (
             <UserMenu />
           ) : (
@@ -117,7 +122,7 @@ export default function Navbar() {
       {/* Mobile nav */}
       <div
         className={`sm:hidden transition-all duration-300 overflow-hidden bg-gray-800/90 ${
-          navbarOpen ? "max-h-[300px] py-4" : "max-h-0"
+          navbarOpen ? "max-h-[400px] py-4" : "max-h-0"
         }`}
       >
         <div className="flex flex-col gap-4 px-6 text-sm">
@@ -138,6 +143,23 @@ export default function Navbar() {
               </NavLink>
             );
           })}
+
+          {/* Marketplace - tylko jeśli sprzedawca */}
+          {user && user.id && user.roles.includes("ROLE_SELLER") && (
+            <NavLink
+              to="/seller"
+              onClick={() => setNavbarOpen(false)}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-white font-semibold"
+                  : "text-gray-300 hover:text-white transition"
+              }
+            >
+              My Marketplace
+            </NavLink>
+          )}
+
+          {/* Login lub UserMenu */}
           {user && user.id ? (
             <div className="font-[500] transition-all duration-150">
               <UserMenu />
@@ -145,9 +167,9 @@ export default function Navbar() {
           ) : (
             <div className="font-[500] transition-all duration-150">
               <NavLink
-                className="flex items-center space-x-2 px-4 py-[6px] text-white font-semibold rounded-md shadow-lg"
                 to="/login"
-                end
+                onClick={() => setNavbarOpen(false)}
+                className="flex items-center space-x-2 px-4 py-[6px] text-white font-semibold rounded-md shadow-lg"
               >
                 <motion.button
                   whileTap={{ scale: 0.97 }}
@@ -155,7 +177,6 @@ export default function Navbar() {
                   className="relative overflow-hidden font-semibold py-2 px-4 rounded-sm text-white transition-all duration-300"
                 >
                   <span className="absolute inset-0 animate-gradient-move bg-gradient-to-r from-gray-700 via-gray-600 to-yellow-900"></span>
-
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <FaSignInAlt className="text-lg" /> Login
                   </span>

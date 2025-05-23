@@ -38,7 +38,6 @@ export default function Filter({ categories }) {
       } else {
         searchParams.delete("keyword");
       }
-      console.log(searchTerm);
       navigate(`${pathName}?${searchParams.toString()}`);
     }, 300);
     return () => {

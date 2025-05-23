@@ -1,5 +1,6 @@
 import React from "react";
 import { formatPriceCalculation } from "../../utils/formatPrice";
+import defaultProductImg from "../../assets/default_product.png";
 
 export default function OrderSummary({
   totalPrice,
@@ -7,6 +8,15 @@ export default function OrderSummary({
   address,
   paymentMethod,
 }) {
+  function getImageUrl(item) {
+    if (item?.image.includes("default.png")) {
+      return defaultProductImg;
+    } else if (item?.image.includes(import.meta.env.VITE_BACK_END_URL)) {
+      return item?.image;
+    } else {
+      return `${import.meta.env.VITE_BACK_END_URL}/images/${item?.image}`;
+    }
+  }
   return (
     <div className="container mx-auto px-4 mb-8">
       <div className="flex flex-wrap">
@@ -51,9 +61,7 @@ export default function OrderSummary({
                 {cart?.map((item) => (
                   <div key={item?.productId} className="flex items-center">
                     <img
-                      src={`${import.meta.env.VITE_BACK_END_URL}/images/${
-                        item?.image
-                      }`}
+                      src={getImageUrl(item)}
                       alt="Product"
                       className="w-30 rounded"
                     />
