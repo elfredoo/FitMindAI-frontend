@@ -29,6 +29,22 @@ Użytkownik po dodaniu produktów do koszyka przechodzi do sekcji płatności, g
 
 Dodatkowo, użytkownik może wygenerować fakturę zamówienia – co jest kluczową funkcją w sklepie internetowym.
 
+### Sprzedawcy w FitMindAI
+
+W sklepie **FitMindAI** użytkownicy mogą także zostać sprzedawcami i zarządzać własnym asortymentem. Do ich dyspozycji jest panel, w którym mogą:
+
+- dodawać, edytować i usuwać swoje produkty,  
+- zarządzać stanem magazynowym,  
+- przeglądać statystyki sprzedaży:  
+  - przychody,  
+  - ilość sprzedanych produktów,  
+  - popularność poszczególnych pozycji,  
+- monitorować zamówienia i statusy realizacji.
+
+Ta funkcja pozwala sprzedawcom samodzielnie kontrolować swój biznes bezpośrednio w aplikacji, co znacznie ułatwia prowadzenie sprzedaży i rozwój.
+
+---
+
 ### 🛠 Stack technologiczny
 
 - React 18  
@@ -77,6 +93,22 @@ Product data is fetched from a **PostgreSQL** database through my custom API (`F
 After adding items to the cart, the user can proceed to checkout, enter a shipping address, and securely pay using **Stripe** – one of the most secure and widely-used payment solutions in the industry.
 
 Users can also generate an invoice – a must-have feature for e-commerce platforms.
+
+### Seller Features in FitMindAI
+
+In **FitMindAI**, users can also become sellers and manage their own product offerings. They have access to a dedicated dashboard where they can:
+
+- add, edit, and remove their products,  
+- manage inventory levels,  
+- view sales statistics:  
+  - revenue,  
+  - number of products sold,  
+  - popularity of individual items,  
+- track orders and fulfillment status.
+
+This feature empowers sellers to independently control their business directly within the app, making sales management and growth easier.
+
+---
 
 ### 🛠 Tech Stack
 
